@@ -1,1 +1,0 @@
-articlesmodel.coffee

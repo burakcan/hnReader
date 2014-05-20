@@ -18,12 +18,17 @@ class ArticlesListController extends KDListViewController
 
       @emit 'articleclicked', view.getData()
 
-      unless view.getData()['read']
-        view.getData().modelInstance.set('read', true)
-        view.setClass 'read'
+      view.getData()['read'] = 'true'
+
+    view.on 'favoritedstatechanged', (state) -> view.getData()['favorited'] = state
 
 
-    view.on 'favoritedstatechanged', (state) =>
+  createList : (data, modelClass) ->
 
-      view.getData().modelInstance.set('favorited', state)
+    @removeAllItems()
 
+    for itemData in data
+
+      model = new modelClass itemData
+
+      model.on 'ready', @bound 'addItem'

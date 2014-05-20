@@ -15,6 +15,7 @@ main.main-view
     max-width             960px
     padding               0 30px
     box-sizing            border-box
+    position              relative
 
   >.main-header
     width                 100%
@@ -36,15 +37,28 @@ main.main-view
       width               40px
       height              40px
 
+    .state-selector
+      display             block
+      margin-top          4px
+      background          #fff
+      border              none
+      box-shadow          none
+      width               160px
+      opacity             .8
+      position            absolute
+      right               30px
+      top                 0px
+
+      .title
+        text-align        left
+        color             #999
+
   >.listview-wrapper
     margin                60px auto
     height                calc(100% - 60px)
 
-    .kdloader.full-loader
-      position            absolute
-      top                 80px
-      left                50%
-      -webkit-transform   translateY(-50%)
+    .lazy-loader
+      text-align          center
 
   .kdlistview-articles-list
     margin-top            30px

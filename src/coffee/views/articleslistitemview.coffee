@@ -12,6 +12,7 @@ class ArticlesListItemView extends KDListItemView
       tagName : 'h2'
       partial : @getData().title
       click   : => @emit 'titleclicked'
+    , @getData()
 
     @favoriteIcon = new KDToggleButton
       iconOnly      : yes
@@ -21,31 +22,38 @@ class ArticlesListItemView extends KDListItemView
           title     : 'Favorite'
           cssClass  : 'icon-star-empty'
           callback  : =>
-            @favoriteIcon.toggleState()
-            @emit 'favoritedstatechanged', yes
+            @favoriteIcon.setState 'Unfavorite'
+            @emit 'favoritedstatechanged', 'true'
         }
 
         {
           title     : 'Unfavorite'
           cssClass  : 'icon-star'
           callback  : =>
-            @favoriteIcon.toggleState()
+            @favoriteIcon.setState 'Favorite'
             @emit 'favoritedstatechanged', no
         }
       ]
+    , @getData()
 
     @shareButton    = new KDButtonView
       iconOnly      : yes
       cssClass      : 'icon-export'
+      callback      : =>
 
-    @getData().modelInstance.on 'datachanged', log
+    @getData().on 'update', => @render()
+
+
+  render : (fields) ->
+    super fields
+
+    @setClass 'read' if @getData()['read']
 
 
   viewAppended : JView::viewAppended
 
 
   pistachio : ->
-    {title, points, commentCount, postedAgo, postedBy} = @getData()
 
     """
       <span class='article-number'></span>
@@ -57,7 +65,7 @@ class ArticlesListItemView extends KDListItemView
       </div>
 
       <div class='article-info'>
-        <span><em>#{points}</em> points and <em>#{commentCount}</em> comments</span>
-        <span>Posted <em>#{postedAgo}</em> by <em>#{postedBy}</em></span>
+        <span><em>{{ #(points) }}</em> points and <em>{{ #(comments_count) }}</em> comments</span>
+        <span>Posted <em>{{ #(time_ago) }}</em> by <em>{{ #(user) }}</em></span>
       </div>
     """

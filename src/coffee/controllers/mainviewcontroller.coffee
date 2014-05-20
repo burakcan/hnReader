@@ -4,16 +4,12 @@ class MainViewController extends KDViewController
 
     super options, data
 
+    @on 'requestloading', @getView().bound '_showLoading'
+    @on 'requestloadingend', @getView().bound '_hideLoading'
+
     @articlesListController = new ArticlesListController
+
+    @emit 'requestloading', @articlesListController.getView()
 
 
   getListController : -> @articlesListController
-
-
-  dataFetched : (data) ->
-
-    @getListController().setData data
-
-    @getListController().replaceAllItems data
-
-

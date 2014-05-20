@@ -8,10 +8,11 @@ module.exports = [
   './src/coffee/models/hnarticlemodel.coffee',
 
   './src/coffee/controllers/dbcontroller.coffee',
+  './src/coffee/controllers/contentcontroller.coffee',
   './src/coffee/controllers/articleslistcontroller.coffee',
   './src/coffee/controllers/mainviewcontroller.coffee',
-  './src/coffee/controllers/jsonpfetcher.coffee',
-  './src/coffee/controllers/hnfetcher.coffee',
+  './src/coffee/controllers/ajaxfetcher.coffee',
+  // './src/coffee/controllers/jsonpfetcher.coffee',
   './src/coffee/controllers/contentdisplay.coffee',
 
   './src/coffee/app.coffee'

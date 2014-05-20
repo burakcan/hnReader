@@ -8,6 +8,8 @@ class MainView extends KDView
 
     @header           = new MainHeaderView
 
+    @header.on 'stateselect', (state) => @emit 'stateselect', state
+
     @appendToDomBody()
 
 
@@ -16,4 +18,14 @@ class MainView extends KDView
     @addSubView @listView = KD.singletons.mainView.getListController().getView()
 
 
+  _showLoading : (view) ->
 
+    if view.loaderView
+      view.loaderView
+
+    else
+      log view.addSubView view.loaderView = new KDLoaderView
+
+
+  _hideLoading : (view) ->
+    log 'hide'

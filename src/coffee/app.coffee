@@ -1,28 +1,22 @@
 do ->
 
-  KD.registerSingleton 'mainView', new MainViewController view : new MainView
-
-  KD.registerSingleton 'hnFetcher', new HNFetcher
-
-  KD.registerSingleton 'contentDisplay', new ContentDisplay
-
   KD.registerSingleton 'DB', bongo.db
     name        : 'newshere'
     collections : ['articles']
 
+  KD.registerSingleton 'contentController', new ContentController
 
-  {mainView, hnFetcher, contentDisplay, DB} = KD.singletons
+  KD.registerSingleton 'contentDisplay', new ContentDisplay
+
+  KD.registerSingleton 'mainView', new MainViewController view : new MainView
 
 
-  hnFetcher.on 'datafetched', (data) ->
+  {mainView, contentDisplay, contentController} = KD.singletons
 
-    for itemData in data.items
 
-      model = new HnArticleModel itemData
+  mainView.getView().on 'stateselect', contentController.bound 'setState'
 
-      model.on 'dataready', mainView.getListController().bound 'addItem'
-
-  hnFetcher.fetch('homeArticles')
-
+  contentController.on 'statechange', (data, stateData) ->
+    mainView.getListController().createList(data, stateData.dataModel)
 
   mainView.getListController().on 'articleclicked', contentDisplay.bound 'showContent'

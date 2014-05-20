@@ -2,42 +2,44 @@ class DataModel extends KDObject
 
   constructor : (data, options = {}) ->
 
+    options.alwaysUpdate ?= [] #A list of keys which we want always be updated with remote data
+
     super options, data
 
     {DB} = KD.singletons
 
-    DB.collection(@getData()["collection"]).get data._id, (err, _data) =>
+    DB.collection(@getOption "collection").get data._id, (err, localData) =>
 
-      data               = _data or data
-      data.modelInstance = this
+      if localData
 
-      @setData data
+        for key in @getOption 'alwaysUpdate'
+          localData[key] = @getData()[key]
 
-      @emit 'dataready', @getData()
+        @setData localData
 
+      makeGetter = (key) -> -> @getData()[key]
+      makeSetter = (key) -> (value) ->
+        @getData()[key] = value
+        @emit 'update'
 
-  set : (key, value, permanent = true) ->
+      props = {}
 
-    data        = @getData()
-    data[key]   = value
+      for own key, _ of @getData()
+        props[key] =
+          get: makeGetter key
+          set: makeSetter key
 
-    @setData data
+      Object.defineProperties this, props
 
-    @save() if permanent
+      @emit 'ready', this
 
-    @emit 'datachanged' , @getData()
+    @on 'update', @bound 'save'
 
 
   save : ->
 
     {DB} = KD.singletons
 
-    data = {}
+    DB.collection(@getOption "collection").save @getData()
 
-    for k, v of @getData()
-      unless k is 'modelInstance'
-        data[k] = v
-
-    DB.collection('articles').save data
-
-    @emit 'datasaved', @getData()
+    @emit 'datasaved', this
