@@ -27,8 +27,14 @@ class ArticlesListController extends KDListViewController
 
     @removeAllItems()
 
-    for itemData in data
+    KD.singletons.mainView.emit 'requestloading', this.getView()
 
-      model = new modelClass itemData
+    KD.utils.wait 1000, =>
 
-      model.on 'ready', @bound 'addItem'
+      for itemData in data
+
+        model = new modelClass itemData
+
+        model.on 'ready', @bound 'addItem'
+
+    KD.utils.wait 1050, => KD.singletons.mainView.emit 'requestloadingend', this.getView()

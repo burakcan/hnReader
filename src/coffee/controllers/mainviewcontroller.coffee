@@ -9,7 +9,5 @@ class MainViewController extends KDViewController
 
     @articlesListController = new ArticlesListController
 
-    @emit 'requestloading', @articlesListController.getView()
-
 
   getListController : -> @articlesListController

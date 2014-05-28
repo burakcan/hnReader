@@ -21,11 +21,15 @@ class MainView extends KDView
   _showLoading : (view) ->
 
     if view.loaderView
-      view.loaderView
+      view.loaderView.show()
 
     else
-      log view.addSubView view.loaderView = new KDLoaderView
+      view.addSubView view.loaderView = new KDLoaderView
+        showLoader      : yes
+        loaderOptions   :
+          shape         : 'spiral'
+          color         : '#ff6600'
 
 
   _hideLoading : (view) ->
-    log 'hide'
+    view.loaderView?.hide()
