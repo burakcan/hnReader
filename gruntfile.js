@@ -1,7 +1,3 @@
-/**
- * Deployup Grunt File
- */
-
 var coffeeIncludes = require('./src/coffee/includes.js');
 
 module.exports  = function(grunt) {
@@ -44,7 +40,7 @@ module.exports  = function(grunt) {
       images : {
         flatten : true,
         expand : true,
-        src : 'src/img/**/*',
+        src : ['src/img/**'],
         dest : 'dist/img/',
         filter : 'isFile'
       },

@@ -9,6 +9,12 @@ body
   -webkit-user-select   none
   overflow              hidden
 
+.kdloader
+  position              absolute
+  left                  50%
+  top                   50%
+  -webkit-transform     translateY(-50%) translateX(-50%)
+
 main.main-view
   .inner-container
     margin                0 auto
@@ -16,12 +22,6 @@ main.main-view
     padding               0 30px
     box-sizing            border-box
     position              relative
-
-  .kdloader
-    position              absolute
-    left                  50%
-    top                   50%
-    -webkit-transform     translateY(-50%) translateX(-50%)
 
   >.main-header
     width                 100%
@@ -46,8 +46,8 @@ main.main-view
     .state-selector
       display             block
       margin-top          4px
-      background          #fff
-      border              none
+      background          transparent
+      border              1px solid darken(hnOrange, 40%)
       box-shadow          none
       width               160px
       opacity             .8
@@ -55,9 +55,29 @@ main.main-view
       right               30px
       top                 0px
 
+      span.arrows
+        background        none
+        width             0px
+        height            0px
+        border            4px solid transparent
+        border-top-color  darken(hnOrange, 40%)
+        position          absolute
+        right             10px
+        top               17px
+
+        &:before
+          content         ''
+          display         block
+          position        absolute
+          left            -4px
+          top             -14px
+          border          4px solid transparent
+          border-bottom-color  darken(hnOrange, 40%)
+
       .title
         text-align        left
-        color             #999
+        font-weight       400
+        color             darken(hnOrange, 90%)
 
   >.listview-wrapper
     margin                60px auto
@@ -140,18 +160,20 @@ main.main-view
         left              61px
         top               0px
         height            100%
+        width             30px
+        background        #fafafa
 
         .kdbutton
           width           30px
           height          50%
           top             0
           position        absolute
-          background      #fafafa
+          background      transparent
           border          none
           border-radius   0
           box-shadow      none
           text-shadow     none
-          color           #d9d9d9
+          color           #95a5a6
           font-size       16px
           padding         0
           box-sizing      border-box
@@ -160,8 +182,8 @@ main.main-view
             border-top    1px solid #f0f0f0
             top           50%
 
-          &.icon-star
-            color         hnOrange
+          &.icon-heart
+            color         #e74c3c
 
       &.read
         opacity           .7
@@ -177,11 +199,6 @@ main.main-view
   box-sizing              border-box
   width                   100% !important
   height                  100% !important
-  -webkit-transform       translateY(0%)
-  -webkit-transition      -webkit-transform .3s ease
-
-  &.initial
-    -webkit-transform     translateY(100%)
 
   .kdmodal-inner
     pointer-events        all
@@ -189,24 +206,206 @@ main.main-view
 
   .kdmodal-content
     max-height            calc(100% - 40px) !important
+    min-height            calc(100% - 40px) !important
 
   .kdmodal-title
     padding               8px
     border-radius         0
     border-bottom         2px solid hnOrange
     cursor                default
+    position              relative
 
     span.title
       font-family         'Helvetica Neue'
       font-size           12px
 
+    .icon-readability
+      background          transparent
+      border              none
+      margin              0
+      padding             0
+      position            absolute
+      right               38px
+      top                 12px
+      font-size           19px
+      text-shadow         none
+      box-shadow          none
+      color               #95a5a6
+
+      &.active
+        color             #333
+
+    .icon-heart
+    .icon-heart-empty
+      background          transparent
+      border              none
+      margin              0
+      padding             0
+      position            absolute
+      right               70px
+      top                 11px
+      font-size           19px
+      text-shadow         none
+      box-shadow          none
+      color               #95a5a6
+
+    .icon-heart
+      color               #e74c3c
+
+  .close-icon
+    display             block
+    background          none
+    width               auto
+    height              auto
+    font-size           22px
+    color               #95a5a6
+    right               26px
+
+    &:before
+      font-family       'icons'
+      content           '\e802'
+      font-style        normal
+      font-weight       normal
+      speak             none
+      display           inline-block
+      text-decoration   inherit
+      width             1em
+      margin-right      .2em
+      text-align        center
+      font-variant      normal
+      text-transform    none
+      line-height       1em
+      margin-left       .2em
+
   .content-display-frame
     height                auto
+
+    &.loading-active
+      height              100%
+      overflow            hidden
+
+      iframe
+        opacity           0
 
     iframe
       width               100%
       height              100%
 
+
+    .readability-view
+      width               100%
+      height              auto
+      box-sizing          border-box
+      padding             40px
+      font-family         'Georgia'
+      font-size           16px
+      line-height         1.5em
+      letter-spacing      0.02em
+      color               #000
+      max-width           880px
+      margin              0 auto
+
+      .main-heading
+        text-align        center
+        margin-bottom     50px
+        line-height       43px
+
+      strong, th
+        font-weight       bold
+
+      em, address, caption, cite
+        font-style        italic
+
+      table
+        display           table
+        border-spacing    2px
+        border-collapse   separate
+      tr
+        display           table-row
+        vertical-align    inherit
+      td
+        display           table-cell
+        border-spacing    2px
+        padding           2px
+        vertical-align    inherit
+        text-align        inherit
+        padding           1px
+        border-collapse   none
+      th
+        display           table-cell
+        vertical-align    inherit
+        font-weight       bold
+        padding           1px
+        border-collapse   none
+      p
+        display           block
+        margin            1em 0
+      blockquote
+        display           block
+        margin            1em 40px
+      address
+        display           block
+        font-style        italic
+      center
+        display           block
+        text-align        center
+      h1
+        display           block
+        font-size         2em
+        font-weight       bold
+        margin            .67em 0
+      h2
+        display           block
+        font-size         1.5em
+        font-weight       bold
+        margin            .83em 0
+      h3
+        display           block
+        font-size         1.17em
+        font-weight       bold
+        margin            1em 0
+      h4
+        display           block
+        font-weight       bold
+        margin            1.33em 0
+      h5
+        display           block
+        font-size         0.83em
+        font-weight bold
+        margin 1.67em 0
+      h6
+        display block
+        font-size 0.67em
+        font-weight bold
+        margin 2.33em 0
+      ul
+        display block
+        list-style-type disc
+        margin 1em 0
+        padding-left 40px
+      ol
+        display block
+        list-style-type decimal
+        margin 1em 0
+        padding-left 40px
+      li
+        display list-item
+
+      pre, code
+        display block
+        font-family Courier New
+        white-space pre
+        margin 1em 0
+
+@-webkit-keyframes heartAnimation
+  0%
+    -webkit-transform         scale(1)
+
+  50%
+    -webkit-transform         scale(0.5)
+
+  100%
+    -webkit-transform         scale(1)
 
 
 

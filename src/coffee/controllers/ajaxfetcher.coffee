@@ -2,7 +2,9 @@ class Ajax extends KDController
 
   constructor: (options = {}, data) ->
 
-    options.url ?= ''
+    options.url       ?= ''
+    options.success   ?= ->
+    options.error     ?= ->
 
     super options, data
 
@@ -34,10 +36,14 @@ class Ajax extends KDController
 
     @setData data
 
+    @getOption('success') data
+
     @emit 'datafetched', data
 
 
   error : ->
+
+    @getOption('error')()
 
     @emit 'couldntfetch'
 

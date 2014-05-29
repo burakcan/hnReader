@@ -29,7 +29,14 @@ class MainView extends KDView
         loaderOptions   :
           shape         : 'spiral'
           color         : '#ff6600'
+        size            :
+          width         : 40
+          height        : 40
+
+    view.setClass 'loading-active'
 
 
   _hideLoading : (view) ->
     view.loaderView?.hide()
+
+    view.unsetClass 'loading-active'

@@ -20,7 +20,7 @@ class ArticlesListItemView extends KDListItemView
       states        : [
         {
           title     : 'Favorite'
-          cssClass  : 'icon-star-empty'
+          cssClass  : 'icon-heart-empty'
           callback  : =>
             @favoriteIcon.setState 'Unfavorite'
             @emit 'favoritedstatechanged', 'true'
@@ -28,7 +28,7 @@ class ArticlesListItemView extends KDListItemView
 
         {
           title     : 'Unfavorite'
-          cssClass  : 'icon-star'
+          cssClass  : 'icon-heart'
           callback  : =>
             @favoriteIcon.setState 'Favorite'
             @emit 'favoritedstatechanged', no
@@ -41,7 +41,13 @@ class ArticlesListItemView extends KDListItemView
       cssClass      : 'icon-export'
       callback      : =>
 
-    @getData().on 'update', => @render()
+    @getData().on 'update', =>
+
+      @render()
+
+      if @getData()['favorited']
+      then @favoriteIcon.setState 'Unfavorite'
+      else @favoriteIcon.setState 'Favorite'
 
 
   render : (fields) ->

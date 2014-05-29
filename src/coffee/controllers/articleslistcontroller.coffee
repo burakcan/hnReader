@@ -25,9 +25,11 @@ class ArticlesListController extends KDListViewController
 
   createList : (data, modelClass) ->
 
+    {mainView} = KD.singletons
+
     @removeAllItems()
 
-    KD.singletons.mainView.emit 'requestloading', this.getView()
+    mainView.emit 'requestloading', this.getView()
 
     KD.utils.wait 1000, =>
 
@@ -37,4 +39,4 @@ class ArticlesListController extends KDListViewController
 
         model.on 'ready', @bound 'addItem'
 
-    KD.utils.wait 1050, => KD.singletons.mainView.emit 'requestloadingend', this.getView()
+    KD.utils.wait 1050, => mainView.emit 'requestloadingend', this.getView()
