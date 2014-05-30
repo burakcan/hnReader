@@ -6,6 +6,7 @@ class HnArticleModel extends DataModel
     data.type                = 'hnarticle'
     data.read                = false
     data.favorited           = false
+    data.readability         = false
 
     options.collection       = 'articles'
     options.alwaysUpdate     = [

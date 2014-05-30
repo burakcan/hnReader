@@ -13,8 +13,12 @@ do ->
 
   {mainView, contentDisplay, contentController} = KD.singletons
 
+  mainView.emit 'requestloading', mainView.getListController().getView()
 
   mainView.getView().on 'stateselect', contentController.bound 'setState'
+  mainView.getView().on 'stateselect', mainView.getListController().bound 'removeAllItems'
+  mainView.getView().on 'stateselect', mainView.getListController().bound 'hideNoItemWidget'
+  mainView.getView().on 'stateselect', -> mainView.emit 'requestloading', mainView.getListController().getView()
 
   contentController.on 'statechange', (data, stateData) ->
     mainView.getListController().createList(data, stateData.dataModel)

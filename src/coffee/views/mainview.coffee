@@ -18,7 +18,7 @@ class MainView extends KDView
     @addSubView @listView = KD.singletons.mainView.getListController().getView()
 
 
-  _showLoading : (view) ->
+  _showLoading : (view = this) ->
 
     if view.loaderView
       view.loaderView.show()
@@ -36,7 +36,7 @@ class MainView extends KDView
     view.setClass 'loading-active'
 
 
-  _hideLoading : (view) ->
+  _hideLoading : (view = this) ->
     view.loaderView?.hide()
 
     view.unsetClass 'loading-active'

@@ -1,8 +1,11 @@
 module.exports = [
   './src/coffee/views/mainheaderview.coffee',
   './src/coffee/views/mainview.coffee',
+  './src/coffee/views/favoriteview.coffee',
+  './src/coffee/views/shareview.coffee',
   './src/coffee/views/articleslistitemview.coffee',
   './src/coffee/views/contentdisplayframeview.coffee',
+  './src/coffee/views/contentdisplayview.coffee',
 
   './src/coffee/models/datamodel.coffee',
   './src/coffee/models/hnarticlemodel.coffee',

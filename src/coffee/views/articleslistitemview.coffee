@@ -14,40 +14,25 @@ class ArticlesListItemView extends KDListItemView
       click   : => @emit 'titleclicked'
     , @getData()
 
-    @favoriteIcon = new KDToggleButton
-      iconOnly      : yes
-      defaultState  : 'Unfavorite' if @getData()['favorited']
-      states        : [
-        {
-          title     : 'Favorite'
-          cssClass  : 'icon-heart-empty'
-          callback  : =>
-            @favoriteIcon.setState 'Unfavorite'
-            @emit 'favoritedstatechanged', 'true'
-        }
-
-        {
-          title     : 'Unfavorite'
-          cssClass  : 'icon-heart'
-          callback  : =>
-            @favoriteIcon.setState 'Favorite'
-            @emit 'favoritedstatechanged', no
-        }
-      ]
-    , @getData()
+    @favoriteIcon   = new FavoriteView {}, @getData()
 
     @shareButton    = new KDButtonView
       iconOnly      : yes
       cssClass      : 'icon-export'
       callback      : =>
 
-    @getData().on 'update', =>
+        @shareView.setClass 'active'
+        @shareView.active   = true
 
-      @render()
+        KD.singletons['windowController'].addLayer @shareView
 
-      if @getData()['favorited']
-      then @favoriteIcon.setState 'Unfavorite'
-      else @favoriteIcon.setState 'Favorite'
+        @shareView.once 'ReceivedClickElsewhere', ->
+          @unsetClass 'active'
+          @active     = false
+
+    @shareView      = new ShareView {}, @getData()
+
+    @getData().on 'update', => @render()
 
 
   render : (fields) ->
@@ -69,6 +54,8 @@ class ArticlesListItemView extends KDListItemView
         {{> this.favoriteIcon }}
         {{> this.shareButton }}
       </div>
+
+      {{> this.shareView }}
 
       <div class='article-info'>
         <span><em>{{ #(points) }}</em> points and <em>{{ #(comments_count) }}</em> comments</span>

@@ -8,7 +8,18 @@ class ArticlesListController extends KDListViewController
       type                 : 'articles-list'
       cssClass             : 'inner-container'
 
+    options.noItemFoundWidget   = new KDCustomHTMLView
+      partial                   : 'There is no article here :('
+      cssClass                  : 'no-article-view'
+
     super options, data
+
+
+  loadView:->
+
+    super
+
+    @hideNoItemWidget()
 
 
   registerItem: (view, index) ->
@@ -20,14 +31,12 @@ class ArticlesListController extends KDListViewController
 
       view.getData()['read'] = 'true'
 
-    view.on 'favoritedstatechanged', (state) -> view.getData()['favorited'] = state
-
 
   createList : (data, modelClass) ->
 
-    {mainView} = KD.singletons
-
     @removeAllItems()
+
+    {mainView} = KD.singletons
 
     mainView.emit 'requestloading', this.getView()
 
@@ -39,4 +48,8 @@ class ArticlesListController extends KDListViewController
 
         model.on 'ready', @bound 'addItem'
 
-    KD.utils.wait 1050, => mainView.emit 'requestloadingend', this.getView()
+    KD.utils.wait 1050, =>
+
+      @showNoItemWidget() unless data.length
+
+      mainView.emit 'requestloadingend', this.getView()

@@ -23,6 +23,16 @@ main.main-view
     box-sizing            border-box
     position              relative
 
+  .no-article-view
+    padding               30px
+    text-align            center
+    border                1px solid #fff
+    border-radius         4px
+    color                 #fff
+    background            hnOrange
+    font-weight           300
+
+
   >.main-header
     width                 100%
     height                auto
@@ -34,7 +44,7 @@ main.main-view
     z-index               10
     -webkit-app-region    drag
     box-sizing            border-box
-    text-align            center
+    text-align            left
 
     figure.logo
       background          url('./img/hnlogo.svg') no-repeat center center
@@ -123,6 +133,64 @@ main.main-view
           font-size         16px
           -webkit-transform translateY(-50%)
 
+      .share-view
+        width               auto
+        height              auto
+        padding             6px 3px
+        background          #fff
+        position            absolute
+        left                40px
+        top                 8px
+        opacity             0
+        z-index             -1
+        border              1px solid #ccc
+        overflow            visible
+        border-radius       4px
+        box-shadow          0 1px 3px rgba(0,0,0, .2)
+
+        &:after
+          content           ''
+          position          absolute
+          display           block
+          border            7px solid transparent
+          border-top-color  #fff
+          top               100%
+          left              26px
+          margin-top        -1px
+
+        &:before
+          content           ''
+          position          absolute
+          display           block
+          border            7px solid transparent
+          border-top-color  #ccc
+          top               100%
+          left              26px
+
+        &.active
+          opacity           1
+          z-index           20
+
+        .icon
+          float             left
+          font-size         26px
+          color             #444
+          cursor            pointer
+
+          &:hover
+
+            &.icon-facebook
+              color           #3b5998
+
+            &.icon-twitter
+              color           #55acee
+
+            &.icon-linkedin
+              color           #0976b4
+
+            &.icon-gplus
+              color           #dd4b39
+
       h2
         font-size         14px
         color             #444
@@ -190,6 +258,72 @@ main.main-view
 
         h2
           opacity         .5
+
+.kdmodal.share-popup
+
+  left                    50% !important
+  top                     50% !important
+  pointer-events          none
+  box-sizing              border-box
+  margin                  -200px 0 0 -350px
+  width                   700px !important
+  height                  400px !important
+  padding                 20px 20px 0
+
+  .kdmodal-title
+    padding               8px
+    border-radius         0
+    border-bottom         2px solid hnOrange
+    cursor                default
+    position              relative
+
+    span.title
+      font-family         'Helvetica Neue'
+      font-size           12px
+
+  .kdmodal-inner
+    pointer-events        all
+    border-radius         0
+
+  .content-display-frame
+    height                auto
+    width                 100%
+
+    &.loading-active
+      height              100%
+      overflow            hidden
+
+      iframe
+        opacity           0
+
+    iframe
+      width               100%
+      height              100%
+
+  .close-icon
+    display             block
+    background          none
+    width               auto
+    height              auto
+    font-size           22px
+    color               #95a5a6
+    right               26px
+
+    &:before
+      font-family       'icons'
+      content           '\e802'
+      font-style        normal
+      font-weight       normal
+      speak             none
+      display           inline-block
+      text-decoration   inherit
+      width             1em
+      margin-right      .2em
+      text-align        center
+      font-variant      normal
+      text-transform    none
+      line-height       1em
+      margin-left       .2em
 
 .kdmodal.content-display
   left                    0 !important
@@ -396,16 +530,6 @@ main.main-view
         font-family Courier New
         white-space pre
         margin 1em 0
-
-@-webkit-keyframes heartAnimation
-  0%
-    -webkit-transform         scale(1)
-
-  50%
-    -webkit-transform         scale(0.5)
-
-  100%
-    -webkit-transform         scale(1)
 
 
 
